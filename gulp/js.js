@@ -1,46 +1,79 @@
 'use strict';
-var gulp  = require('gulp');
+var browserify = require('browserify');
+var buffer = require('vinyl-buffer');
 var concat = require('gulp-concat');
-var ngAnnotate = require('gulp-ng-annotate');
-var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
 var debug = require('gulp-debug');
+var gulp  = require('gulp');
+var gutil = require("gulp-util");
+var source = require('vinyl-source-stream');
+var sourcemaps = require('gulp-sourcemaps');
+var tsify = require('tsify');
+var uglify = require('gulp-uglify');
+var watchify = require("watchify");
 
 var config = require('../build.config.json');
 var buildDir = config.build_dir;
 var appDir = config.app_dir;
-var appFiles = [
-  appDir + '**/*.module.js',
-  appDir + '**/*.js',
-  '!**/*.spec.js'
-];
 var vendorFiles = config.vendor_files.js;
 
-gulp.task('js', function () {
-  return gulp.src(appFiles, {base: appDir})
-    .pipe(sourcemaps.init())
-    .pipe(concat('app.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(buildDir))
+/////////////////////////////////////////////////////////////
+// TYPESCRIPT
+/////////////////////////////////////////////////////////////
+
+var watchedBrowserify = watchify(browserify({
+  basedir: appDir,
+  debug: true,
+  extensions: ['ts'],
+  cache: {},
+  packageCache: {}
+}).plugin(tsify));
+
+function bundle() {
+  return watchedBrowserify
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(gulp.dest(buildDir));
+}
+
+gulp.task('watch:ts', ['common'], bundle);
+
+watchedBrowserify.on('update', bundle);
+watchedBrowserify.on('log', gutil.log);
+
+gulp.task('build:ts', function () {
+  return browserify({
+    basedir: appDir,
+    debug: true,
+    entries: ['main.ts'],
+    extensions: ['ts'],
+    cache: {},
+    packageCache: {}
+  })
+    .plugin(tsify)
+    .transform('babelify', {
+      presets: ['es2015'],
+      extensions: ['.ts']
+    })
+    .bundle()
+    .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    // .pipe(uglify())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest(buildDir));
 });
 
-gulp.task('js:vendor', function () {
+/////////////////////////////////////////////////////////////
+// VENDOR JS
+/////////////////////////////////////////////////////////////
+
+gulp.task('vendor:js', function () {
   return gulp.src(vendorFiles)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest(buildDir))
 });
 
-gulp.task('build:js', function () {
-  return gulp.src(appFiles, {base: appDir})
-    .pipe(sourcemaps.init())
-    .pipe(concat('app.js'))
-    .pipe(ngAnnotate())
-    .pipe(uglify())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest(buildDir))
-});
-
-gulp.task('build:js:vendor', function () {
+gulp.task('build:vendor:js', function () {
   return gulp.src(vendorFiles)
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(concat('vendor.js'))

@@ -1,8 +1,8 @@
 'use strict';
-var gulp  = require('gulp');
-var concat = require('gulp-concat');
-var sourcemaps = require('gulp-sourcemaps');
 var cleanCSS = require('gulp-clean-css');
+var concat = require('gulp-concat');
+var gulp  = require('gulp');
+var sourcemaps = require('gulp-sourcemaps');
 
 var config = require('../build.config.json');
 var buildDir = config.build_dir;

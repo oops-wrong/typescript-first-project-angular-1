@@ -1,7 +1,7 @@
 'use strict';
-var gulp  = require('gulp');
 var clean = require('gulp-clean');
 var deleteEmpty = require('delete-empty');
+var gulp  = require('gulp');
 
 var config = require('../build.config.json');
 var appDir = config.app_dir;
@@ -26,8 +26,7 @@ gulp.task('delete-empty-directories', function() {
   deleteEmpty.sync('./' + buildDir);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['watch:ts'], function () {
   gulp.watch(commonFiles, ['common']);
-  gulp.watch(appDir + '**/*.js', ['js']);
   gulp.watch(appDir + '**/*.css', ['css']);
 });
