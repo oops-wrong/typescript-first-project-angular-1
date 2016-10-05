@@ -1,15 +1,10 @@
-import {app} from './app.module';
-
-app.config(config)
-  .run(run);
-
 /////////////////////////////////////////////////////////////
 // CONFIG
 /////////////////////////////////////////////////////////////
 
 config.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
 
-function config($locationProvider, $stateProvider, $urlRouterProvider) {
+export function config($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
@@ -97,7 +92,7 @@ function productDetailsPrep($stateParams, product) {
 
 run.$inject = ['$rootScope', '$state', 'ngDialog'];
 
-function run($rootScope, $state, ngDialog) {
+export function run($rootScope, $state, ngDialog) {
   $rootScope.$on('$stateChangeError', console.error.bind(console));
 
   $rootScope.$on('$stateChangeStart', function(evt, to, params) {

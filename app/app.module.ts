@@ -1,6 +1,14 @@
 import {module} from 'angular';
 
-export let app = module('testShopApp', [
+import {config, run} from './app.routes';
+import './basket/basket.module';
+import './catalog/catalog.module';
+import './checkout/checkout.module';
+import './core/core.module';
+import './product/product.module';
+import './zoom-img/zoom-img.module';
+
+module('testShopApp', [
   'basket',
   'catalog',
   'checkout',
@@ -11,4 +19,6 @@ export let app = module('testShopApp', [
   'product',
   'ui.router',
   'zoomImg'
-]);
+])
+  .config(config)
+  .run(run);
