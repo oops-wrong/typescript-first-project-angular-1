@@ -1,12 +1,14 @@
 {
-    "compilerOptions": {
-        "sourceMap": true,
-        "target": "es2015"
-    },
-    "exclude": [
-        "node_modules"
-    ],
-    "include": [
-        "app/**/*"
-    ]
+  "compilerOptions": {
+    "baseUrl": "app",
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "target": "es2015"
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "app/**/*"
+  ]
 }

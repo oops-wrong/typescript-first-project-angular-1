@@ -23,7 +23,7 @@ gulp.task('ts', function () {
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(concat('main.js'))
+    .pipe(concat('app.js'))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir));
 });
@@ -35,7 +35,7 @@ gulp.task('build:ts', function () {
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe(concat('main.js'))
+    .pipe(concat('app.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir));

@@ -1,9 +1,8 @@
-(function() {
-  'use strict';
+import * as angular from 'angular';
 
-  angular
-    .module('catalog')
-    .component('catalog', {
+import {catalog} from './catalog.module';
+
+catalog.component('catalog', {
       templateUrl: 'catalog/catalog.template.html',
       controller: CatalogController,
       controllerAs: 'vm',
@@ -57,4 +56,3 @@
       order.removeFromList(productId);
     }
   }
-}());
