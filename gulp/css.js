@@ -20,7 +20,7 @@ gulp.task('css', function () {
     .pipe(gulp.dest(buildDir))
 });
 
-gulp.task('css:vendor', function () {
+gulp.task('vendor:css', function () {
   return gulp.src(vendorFiles)
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest(buildDir))
@@ -31,15 +31,15 @@ gulp.task('build:css', function () {
     .pipe(sourcemaps.init())
     .pipe(concat('app.css'))
     .pipe(cleanCSS())
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir))
 });
 
-gulp.task('build:css:vendor', function () {
+gulp.task('build:vendor:css', function () {
   return gulp.src(vendorFiles)
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(concat('vendor.css'))
     .pipe(cleanCSS())
-    .pipe(sourcemaps.write())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir))
 });

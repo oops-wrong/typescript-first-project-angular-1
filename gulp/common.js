@@ -9,7 +9,8 @@ var buildDir = config.build_dir;
 var commonFiles = [
   appDir + '**/*',
   '!**/*.css',
-  '!**/*.js'
+  '!**/*.js',
+  '!**/*.ts'
 ];
 
 gulp.task('clean', function () {
@@ -26,7 +27,8 @@ gulp.task('delete-empty-directories', function() {
   deleteEmpty.sync('./' + buildDir);
 });
 
-gulp.task('watch', ['watch:ts'], function () {
+gulp.task('watch', function () {
   gulp.watch(commonFiles, ['common']);
   gulp.watch(appDir + '**/*.css', ['css']);
+  gulp.watch(appDir + '**/*.ts', ['ts']);
 });
