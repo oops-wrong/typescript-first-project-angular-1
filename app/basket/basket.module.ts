@@ -1,7 +1,8 @@
-(function () {
-  'use strict';
-  angular
-    .module('basket', [
-      'core.order'
-    ]);
-}());
+import {module} from "angular";
+
+import {basketComponent} from './basket.component';
+
+module('basket', [
+  'core.order'
+])
+  .component('basket', basketComponent);

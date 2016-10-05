@@ -1,10 +1,6 @@
-import {core} from '../core.module';
-
-core.factory('page', page);
-
 page.$inject = [];
 
-function page() {
+export function page() {
   var title = '';
 
   return {

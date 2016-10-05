@@ -1,12 +1,9 @@
 import * as angular from 'angular';
 
-import {core} from '../core.module';
-
-core.factory('orderProduct', orderProduct);
 
 orderProduct.$inject = ['order', 'product', 'utils'];
 
-function orderProduct(order, product, utils) {
+export function orderProduct(order, product, utils) {
   return {
     getAmount: getAmount,
     getDeclCountText: getDeclCountText,

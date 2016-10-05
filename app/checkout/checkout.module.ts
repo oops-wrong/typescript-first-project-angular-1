@@ -1,7 +1,10 @@
 import {module} from 'angular';
 
-export let checkout = module('checkout', [
+import {checkoutComponent} from './checkout.component';
+
+module('checkout', [
   'core.order',
   'core.page',
   'core.product'
-]);
+])
+  .component('checkout', checkoutComponent);

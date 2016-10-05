@@ -1,6 +1,9 @@
 import {module} from 'angular';
 
-export let product = module('product', [
+import {productComponent} from './product.component';
+
+module('product', [
   'core.page',
   'ui.router'
-]);
+])
+  .component('product', productComponent);

@@ -1,13 +1,11 @@
-import {product} from './product.module';
-
-product.component('product', {
+export let productComponent = {
   templateUrl: 'product/product.template.html',
   controller: ProductController,
   controllerAs: 'vm',
   bindings: {
     productDetails: '<'
   }
-});
+};
 
 ProductController.$inject = ['page', '$stateParams'];
 

@@ -1,10 +1,6 @@
-import {core} from '../core.module';
-
-core.factory('product', productFactory);
-
 productFactory.$inject = ['$resource'];
 
-function productFactory($resource) {
+export function productFactory($resource) {
   var products = [];
 
   return {

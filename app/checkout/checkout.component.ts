@@ -1,12 +1,10 @@
 import * as angular from 'angular';
 
-import {checkout} from './checkout.module';
-
-checkout.component('checkout', {
+export let checkoutComponent = {
   templateUrl: 'checkout/checkout.template.html',
   controller: CheckoutController,
   controllerAs: 'vm'
-});
+};
 
 CheckoutController.$inject = ['$rootScope', 'order', 'orderProduct', 'page', 'product'];
 

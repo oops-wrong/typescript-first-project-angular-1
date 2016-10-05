@@ -1,10 +1,6 @@
-import {core} from '../core.module';
-
-core.factory('utils', utils);
-
 utils.$inject = [];
 
-function utils() {
+export function utils() {
   return {
     declOfNum: declOfNum
   };

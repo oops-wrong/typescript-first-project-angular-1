@@ -1,10 +1,8 @@
-import {zoomImg as zoomImgModule} from './zoom-img.module';
-
-zoomImgModule.directive('zoomImg', zoomImg);
+/// <reference path="zoom-img.d.ts"/>
 
 zoomImg.$inject = [];
 
-function zoomImg() {
+export function zoomImg() {
   return {
     link: link,
     restrict: 'A',

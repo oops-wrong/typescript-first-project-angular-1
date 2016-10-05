@@ -1,7 +1,10 @@
 import {module} from "angular";
 
-export let catalog = module('catalog', [
+import {catalogComponent} from "./catalog.component";
+
+module('catalog', [
   'core.order',
   'core.page',
   'zoomImg'
-]);
+])
+  .component('catalog', catalogComponent);

@@ -1,3 +1,6 @@
 import {module} from 'angular';
 
-export let zoomImg = module('zoomImg', []);
+import {zoomImg as zoomImgDirective} from './zoom-img.directive';
+
+module('zoomImg', [])
+  .directive('zoomImg', zoomImgDirective);

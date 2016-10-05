@@ -1,12 +1,8 @@
 import * as angular from 'angular';
 
-import {core} from '../core.module';
-
-core.factory('order', order);
-
 order.$inject = ['$rootScope'];
 
-function order($rootScope) {
+export function order($rootScope) {
   var list = [];
 
   return {
