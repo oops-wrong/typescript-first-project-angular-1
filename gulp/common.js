@@ -27,8 +27,7 @@ gulp.task('delete-empty-directories', function() {
   deleteEmpty.sync('./' + buildDir);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['watch:ts'], function () {
   gulp.watch(commonFiles, ['common']);
   gulp.watch(appDir + '**/*.css', ['css']);
-  gulp.watch(appDir + '**/*.ts', ['ts']);
 });
