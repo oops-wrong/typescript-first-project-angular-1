@@ -6,7 +6,7 @@ var sourcemaps = require('gulp-sourcemaps');
 
 var config = require('../build.config.json');
 var buildDir = config.build_dir;
-var appDir = config.app_dir;
+var appDir = './' + config.app_dir + '/';
 var appFiles = [
   appDir + '**/*.css'
 ];

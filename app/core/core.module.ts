@@ -11,7 +11,7 @@ module('core', [
   'ngResource'
 ])
   .factory('order', order)
-  .factory('order-product', orderProduct)
+  .factory('orderProduct', orderProduct)
   .controller('PageController', PageController)
   .factory('page', page)
   .factory('product', productFactory)

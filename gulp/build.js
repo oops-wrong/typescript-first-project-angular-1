@@ -5,7 +5,7 @@ var runSequence = require('run-sequence');
 gulp.task('build', function(callback) {
   runSequence(
     'clean',
-    ['common', 'build:ts', 'build:vendor:js', 'build:css', 'build:vendor:css'],
+    ['common', 'build:vendor:js', 'build:css', 'build:vendor:css'],
     'delete-empty-directories',
     callback
   );

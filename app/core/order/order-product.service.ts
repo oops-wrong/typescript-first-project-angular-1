@@ -1,6 +1,5 @@
 import * as angular from 'angular';
 
-
 orderProduct.$inject = ['order', 'product', 'utils'];
 
 export function orderProduct(order, product, utils) {

@@ -1,5 +1,5 @@
 {
-  "app_dir": "./app/",
+  "app_dir": "app",
   "build_dir": "dist",
   "vendor_files": {
     "js": [

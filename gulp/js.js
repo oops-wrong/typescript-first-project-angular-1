@@ -1,25 +1,25 @@
 'use strict';
-var browserify = require('browserify');
-var buffer = require('vinyl-buffer');
+// var browserify = require('browserify');
+// var buffer = require('vinyl-buffer');
 var concat = require('gulp-concat');
-var debug = require('gulp-debug');
+// var debug = require('gulp-debug');
 var gulp  = require('gulp');
-var gutil = require("gulp-util");
-var source = require('vinyl-source-stream');
+// var gutil = require("gulp-util");
+// var source = require('vinyl-source-stream');
 var sourcemaps = require('gulp-sourcemaps');
-var tsify = require('tsify');
+// var tsify = require('tsify');
 var uglify = require('gulp-uglify');
-var watchify = require("watchify");
+// var watchify = require("watchify");
 
 var config = require('../build.config.json');
 var buildDir = config.build_dir;
-var appDir = config.app_dir;
+var appDir = './' + config.app_dir + '/';
 var vendorFiles = config.vendor_files.js;
 
 /////////////////////////////////////////////////////////////
 // TYPESCRIPT
 /////////////////////////////////////////////////////////////
-
+/*
 var watchedBrowserify = watchify(browserify({
   basedir: appDir,
   debug: true,
@@ -61,6 +61,7 @@ gulp.task('build:ts', function () {
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest(buildDir));
 });
+*/
 
 /////////////////////////////////////////////////////////////
 // VENDOR JS

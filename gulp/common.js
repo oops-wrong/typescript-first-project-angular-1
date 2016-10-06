@@ -4,7 +4,7 @@ var deleteEmpty = require('delete-empty');
 var gulp  = require('gulp');
 
 var config = require('../build.config.json');
-var appDir = config.app_dir;
+var appDir = './' + config.app_dir + '/';
 var buildDir = config.build_dir;
 var commonFiles = [
   appDir + '**/*',
