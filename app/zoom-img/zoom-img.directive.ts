@@ -1,4 +1,4 @@
-/// <reference path="zoom-img.d.ts"/>
+/// <reference path="../../lib/jquery-zoom/jquery-zoom.d.ts"/>
 
 zoomImg.$inject = [];
 
@@ -14,7 +14,7 @@ export function zoomImg() {
     var $images;
 
     $(function () {
-      if (typeof $element.zoom === 'function') {
+      if (typeof $.zoom === 'function') {
         $images = $element.find('img');
 
         $images.each(function () {
@@ -25,7 +25,7 @@ export function zoomImg() {
           });
         });
       } else {
-        console.error('Plugin "Zoom" does not included.');
+        console.error('Plugin "jQuery-Zoom" does not included.');
       }
     });
   }

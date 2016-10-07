@@ -6,8 +6,10 @@
   "repository": "",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node node_modules/.bin/webpack-dev-server --content-base dist"
+    "app": "webpack",
+    "dll": "webpack --config vendor.webpack.config.js",
+    "start": "node node_modules/.bin/webpack-dev-server --content-base dist",
+    "watch": "npm run dll && webpack --watch --progress"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
@@ -20,6 +22,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^2.0.0",
+    "path": "^0.12.7",
     "run-sequence": "^1.2.2",
     "ts-loader": "^0.8.2",
     "typescript": "^2.0.3",
