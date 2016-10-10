@@ -2,8 +2,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
-var config = require('./build.config.json');
-
 module.exports = {
   devtool: 'source-map',
 
@@ -14,7 +12,7 @@ module.exports = {
 
   output: {
     filename: '[name].[hash].js',
-    path: path.join(__dirname, config.build_dir),
+    path: path.join(__dirname, 'dist'),
     library: '[name]'
   },
 
