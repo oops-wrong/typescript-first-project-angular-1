@@ -14,6 +14,12 @@ import './core/core.module';
 import './product/product.module';
 import './zoom-img/zoom-img.module';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'ng-dialog/css/ngDialog.css';
+import 'ng-dialog/css/ngDialog-theme-default.css';
+
+import './assets/styles/app.scss';
+
 module('testShopApp', [
   'basket',
   'catalog',

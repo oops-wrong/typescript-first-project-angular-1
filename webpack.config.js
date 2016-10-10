@@ -1,3 +1,4 @@
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
@@ -10,12 +11,39 @@ module.exports = {
   entry: './app/app.module.ts',
 
   output: {
-    filename: './[name].js',
+    filename: '[name].js',
     path: path.join(__dirname, config.build_dir)
   },
 
   module: {
     loaders: [
+      {
+        test: /image|\.(png|jpe?g|gif|svg|ico)$/,
+        loader: 'file?name=[path][name].[ext]'
+      },
+      {
+        test: /font|\.(woff|woff2|ttf|eot)$/,
+        loader: 'file?name=assets/fonts/[name].[ext]'
+      },
+      {
+        test: /\.css$/,
+        exclude: /\/app\//,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css',
+          'autoprefixer-loader?browsers=last 2 versions'
+        )
+      },
+      {
+        test: /\.scss$/,
+        include: /\/app\//,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?sourceMap',
+          'sass?sourceMap',
+          'autoprefixer-loader?browsers=last 2 versions'
+        )
+      },
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader'
@@ -42,7 +70,8 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+    new ExtractTextPlugin('assets/styles/[name].[hash].css')
   ],
 
   resolve: {
