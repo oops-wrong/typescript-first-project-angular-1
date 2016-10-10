@@ -1,3 +1,4 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -9,21 +10,20 @@ module.exports = {
   entry: './app/app.module.ts',
 
   output: {
-    filename: './app.js',
+    filename: './[name].js',
     path: path.join(__dirname, config.build_dir)
   },
 
   module: {
     loaders: [
       {
-        loader: 'babel-loader?cacheDirectory&presets[]=es2015!ts-loader',
-        test: /\.ts$/
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader'
       }
     ]
   },
 
   plugins: [
-    // new webpack.optimize.UglifyJsPlugin(),
     new webpack.DllReferencePlugin({
       context: '.',
       manifest: require('./vendor-manifest.json')
@@ -32,6 +32,12 @@ module.exports = {
       context: '.',
       manifest: require('./libs-manifest.json')
     }),
+    new HtmlWebpackPlugin({
+      template: 'dist/index.html'
+    }),
+    new webpack.WatchIgnorePlugin([
+      path.resolve(__dirname, './dist/index.html')
+    ]),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',

@@ -1,4 +1,11 @@
 {
+  "awesomeTypescriptLoaderOptions": {
+    "babelOptions": {
+      "presets": "es2015"
+    },
+    "useBabel": true,
+    "useCache": true
+  },
   "compilerOptions": {
     "moduleResolution": "node",
     "removeComments": true,

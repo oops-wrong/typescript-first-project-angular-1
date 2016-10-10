@@ -1,3 +1,4 @@
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
@@ -7,30 +8,19 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    'vendor': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom'],
-    'libs': ['jquery']
+    'libs': ['jquery'],
+    'vendor': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom']
   },
 
   output: {
-    filename: '[name].js',
+    filename: '[name].[hash].js',
     path: path.join(__dirname, config.build_dir),
-
-    // The name of the global variable which the library's
-    // require() function will be assigned to
     library: '[name]'
   },
 
   plugins: [
     new webpack.DllPlugin({
-
-      // The path to the manifest file which maps between
-      // modules included in a bundle and the internal IDs
-      // within that bundle
       path: path.join(__dirname, '[name]-manifest.json'),
-
-      // The name of the global variable which the library's
-      // require function has been assigned to. This must match the
-      // output.library option above
       name: '[name]'
     }),
     new webpack.ProvidePlugin({
@@ -38,7 +28,16 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    // new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+      compress: {
+        warnings: false
+      }
+    }),
+    new HtmlWebpackPlugin({
+      chunksSortMode: 'none',
+      template: 'app/index.html'
+    })
   ],
 
   resolve: {
