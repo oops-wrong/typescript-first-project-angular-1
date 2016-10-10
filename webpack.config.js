@@ -26,11 +26,11 @@ module.exports = {
     // new webpack.optimize.UglifyJsPlugin(),
     new webpack.DllReferencePlugin({
       context: '.',
-      manifest: require('./angular-manifest.json')
+      manifest: require('./vendor-manifest.json')
     }),
     new webpack.DllReferencePlugin({
       context: '.',
-      manifest: require('./jquery-manifest.json')
+      manifest: require('./libs-manifest.json')
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -40,6 +40,9 @@ module.exports = {
   ],
 
   resolve: {
+    alias: {
+      'jquery-zoom': path.resolve(__dirname, 'lib/jquery-zoom/jquery-zoom.js')
+    },
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
   }
 };

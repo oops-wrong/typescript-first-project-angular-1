@@ -7,8 +7,8 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    'angular': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog'],
-    'jquery': ['jquery']
+    'vendor': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom'],
+    'libs': ['jquery']
   },
 
   output: {
@@ -38,7 +38,7 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    new webpack.optimize.UglifyJsPlugin()
+    // new webpack.optimize.UglifyJsPlugin()
   ],
 
   resolve: {
