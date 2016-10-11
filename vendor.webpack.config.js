@@ -1,3 +1,4 @@
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
@@ -17,6 +18,7 @@ module.exports = {
   },
 
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new webpack.DllPlugin({
       path: path.join(__dirname, '[name]-manifest.json'),
       name: '[name]'
