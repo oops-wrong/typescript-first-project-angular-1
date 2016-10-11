@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 
 export let checkoutComponent = {
-  templateUrl: 'checkout/checkout.template.html',
+  templateUrl: require('file?name=[path][name].[hash].[ext]!./checkout.template.html'),
   controller: CheckoutController,
   controllerAs: 'vm'
 };

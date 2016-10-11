@@ -1,3 +1,5 @@
+/// <reference path="../helpers/declarations.d.ts"/>
+
 import 'angular';
 import 'angular-animate';
 import 'angular-resource';

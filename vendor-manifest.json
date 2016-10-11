@@ -10,7 +10,7 @@
     "./node_modules/angular-resource/angular-resource.js": 7,
     "./node_modules/angular-ui-router/release/angular-ui-router.js": 8,
     "./node_modules/ng-dialog/js/ngDialog.js": 9,
-    "./lib/jquery-zoom/jquery-zoom.js": 10,
+    "./helpers/jquery-zoom/jquery-zoom.js": 10,
     "./node_modules/jquery-zoom/jquery.zoom.js": 11
   }
 }

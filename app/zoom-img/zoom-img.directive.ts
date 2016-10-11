@@ -1,5 +1,3 @@
-/// <reference path="../../lib/jquery-zoom/jquery-zoom.d.ts"/>
-
 zoomImg.$inject = [];
 
 export function zoomImg() {

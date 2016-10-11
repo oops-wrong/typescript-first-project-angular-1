@@ -7,11 +7,13 @@ var extractCSS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
 var extractSASS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
 
 module.exports = {
+  context: path.join(__dirname, 'app'),
+
   devtool: 'source-map',
 
   entry: {
-    'app': './app/app.ts',
-    'vendor': './app/vendor.ts'
+    'app': './app.ts',
+    'vendor': './vendor.ts'
   },
 
   output: {
@@ -65,7 +67,7 @@ module.exports = {
       manifest: require('./libs-manifest.json')
     }),
     new HtmlWebpackPlugin({
-      template: 'dist/index.html'
+      template: path.resolve(__dirname, 'dist/index.html')
     }),
     new webpack.WatchIgnorePlugin([
       path.resolve(__dirname, './dist/index.html')
@@ -81,7 +83,7 @@ module.exports = {
 
   resolve: {
     alias: {
-      'jquery-zoom': path.resolve(__dirname, 'lib/jquery-zoom/jquery-zoom.js')
+      'jquery-zoom': path.resolve(__dirname, 'helpers/jquery-zoom/jquery-zoom.js')
     },
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
   }

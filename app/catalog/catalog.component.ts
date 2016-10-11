@@ -1,7 +1,7 @@
 import * as angular from 'angular';
 
 export let catalogComponent = {
-  templateUrl: 'catalog/catalog.template.html',
+  templateUrl: require('file?name=[path][name].[hash].[ext]!./catalog.template.html'),
   controller: CatalogController,
   controllerAs: 'vm',
   bindings: {

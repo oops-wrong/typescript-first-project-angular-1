@@ -1,5 +1,5 @@
 export let basketComponent = {
-  templateUrl: 'basket/basket.template.html',
+  templateUrl: require('file?name=[path][name].[hash].[ext]!./basket.template.html'),
   controller: BasketController,
   controllerAs: 'vm'
 };

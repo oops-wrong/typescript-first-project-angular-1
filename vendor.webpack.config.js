@@ -26,12 +26,12 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-      compress: {
-        warnings: false
-      }
-    }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   comments: false,
+    //   compress: {
+    //     warnings: false
+    //   }
+    // }),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
       template: 'app/index.html'
@@ -40,7 +40,7 @@ module.exports = {
 
   resolve: {
     alias: {
-      'jquery-zoom': path.resolve(__dirname, 'lib/jquery-zoom/jquery-zoom.js')
+      'jquery-zoom': path.resolve(__dirname, 'helpers/jquery-zoom/jquery-zoom.js')
     }
   }
 };

@@ -1,5 +1,5 @@
 export let productComponent = {
-  templateUrl: 'product/product.template.html',
+  templateUrl: require('file?name=[path][name].[hash].[ext]!./product.template.html'),
   controller: ProductController,
   controllerAs: 'vm',
   bindings: {
