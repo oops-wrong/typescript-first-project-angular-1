@@ -3,10 +3,16 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
+var extractCSS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
+var extractSASS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
+
 module.exports = {
   devtool: 'source-map',
 
-  entry: './app/app.module.ts',
+  entry: {
+    'app': './app/app.ts',
+    'vendor': './app/vendor.ts'
+  },
 
   output: {
     filename: '[name].js',
@@ -16,7 +22,8 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /image|\.(png|jpe?g|gif|svg|ico)$/,
+        test: /\.(png|jpe?g|gif|svg|ico)$/,
+        exclude: /font/,
         loader: 'file?name=[path][name].[ext]'
       },
       {
@@ -26,19 +33,18 @@ module.exports = {
       {
         test: /\.css$/,
         exclude: /\/app\//,
-        loader: ExtractTextPlugin.extract(
+        loader: extractCSS.extract(
           'style',
-          'css',
+          'css?sourceMap',
           'autoprefixer-loader?browsers=last 2 versions'
         )
       },
       {
         test: /\.scss$/,
         include: /\/app\//,
-        loader: ExtractTextPlugin.extract(
+        loader: extractSASS.extract(
           'style',
-          'css?sourceMap',
-          'sass?sourceMap',
+          'css?sourceMap!sass?sourceMap',
           'autoprefixer-loader?browsers=last 2 versions'
         )
       },
@@ -69,13 +75,14 @@ module.exports = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
-    new ExtractTextPlugin('assets/styles/[name].[hash].css')
+    extractCSS,
+    extractSASS
   ],
 
   resolve: {
     alias: {
       'jquery-zoom': path.resolve(__dirname, 'lib/jquery-zoom/jquery-zoom.js')
     },
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
   }
 };
