@@ -7,7 +7,7 @@ var extractCSS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
 var extractSASS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
 
 module.exports = {
-  context: path.join(__dirname, 'app'),
+  context: path.join(__dirname, '../app'),
 
   devtool: 'source-map',
 
@@ -18,7 +18,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, '../dist')
   },
 
   module: {
@@ -60,17 +60,17 @@ module.exports = {
   plugins: [
     new webpack.DllReferencePlugin({
       context: '.',
-      manifest: require('./vendor-manifest.json')
+      manifest: require('./libs0-manifest.json')
     }),
     new webpack.DllReferencePlugin({
       context: '.',
-      manifest: require('./libs-manifest.json')
+      manifest: require('./libs1-manifest.json')
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, 'dist/index.html')
+      template: path.resolve(__dirname, '../dist/index.html')
     }),
     new webpack.WatchIgnorePlugin([
-      path.resolve(__dirname, './dist/index.html')
+      path.resolve(__dirname, '../dist/index.html')
     ]),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -83,7 +83,7 @@ module.exports = {
 
   resolve: {
     alias: {
-      'jquery-zoom': path.resolve(__dirname, 'helpers/jquery-zoom/jquery-zoom.js')
+      'jquery-zoom': path.resolve(__dirname, '../helpers/jquery-zoom/jquery-zoom.js')
     },
     extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
   }

@@ -7,18 +7,20 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    'libs': ['jquery'],
-    'vendor': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom']
+    'libs0': ['jquery'],
+    'libs1': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom']
   },
 
   output: {
     filename: '[name].[hash].js',
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, '../dist'),
     library: '[name]'
   },
 
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['dist'], {
+      root: path.join(__dirname, '..')
+    }),
     new webpack.DllPlugin({
       path: path.join(__dirname, '[name]-manifest.json'),
       name: '[name]'
@@ -36,13 +38,13 @@ module.exports = {
     // }),
     new HtmlWebpackPlugin({
       chunksSortMode: 'none',
-      template: 'app/index.html'
+      template: path.resolve(__dirname, '../app/index.html')
     })
   ],
 
   resolve: {
     alias: {
-      'jquery-zoom': path.resolve(__dirname, 'helpers/jquery-zoom/jquery-zoom.js')
+      'jquery-zoom': path.resolve(__dirname, '../helpers/jquery-zoom/jquery-zoom.js')
     }
   }
 };

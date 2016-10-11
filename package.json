@@ -6,8 +6,8 @@
   "repository": "",
   "license": "MIT",
   "scripts": {
-    "app": "webpack",
-    "dll": "webpack --config vendor.webpack.config.js && gulp --gulpfile config/gulpfile.js",
+    "app": "webpack --config config/app.webpack.config.js",
+    "dll": "webpack --config config/vendor.webpack.config.js && gulp --gulpfile config/gulpfile.js",
     "start": "node node_modules/.bin/webpack-dev-server --content-base dist",
     "watch": "npm run dll && webpack --watch --progress"
   },
