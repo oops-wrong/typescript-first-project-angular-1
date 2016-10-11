@@ -60,11 +60,7 @@ module.exports = {
   plugins: [
     new webpack.DllReferencePlugin({
       context: '.',
-      manifest: require('./libs0-manifest.json')
-    }),
-    new webpack.DllReferencePlugin({
-      context: '.',
-      manifest: require('./libs1-manifest.json')
+      manifest: require('./dll-manifest.json')
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../dist/index.html')
@@ -85,6 +81,6 @@ module.exports = {
     alias: {
       'jquery-zoom': path.resolve(__dirname, '../helpers/jquery-zoom/jquery-zoom.js')
     },
-    extensions: ['', '.webpack.js', '.web.js', '.ts', '.js', '.scss']
+    extensions: ['', '.ts', '.js', '.scss']
   }
 };

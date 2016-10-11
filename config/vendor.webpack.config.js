@@ -7,8 +7,7 @@ module.exports = {
   devtool: 'source-map',
 
   entry: {
-    'libs0': ['jquery'],
-    'libs1': ['angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog', 'jquery-zoom']
+    'dll': ['jquery', 'angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog']
   },
 
   output: {
@@ -40,11 +39,5 @@ module.exports = {
       chunksSortMode: 'none',
       template: path.resolve(__dirname, '../app/index.html')
     })
-  ],
-
-  resolve: {
-    alias: {
-      'jquery-zoom': path.resolve(__dirname, '../helpers/jquery-zoom/jquery-zoom.js')
-    }
-  }
+  ]
 };
