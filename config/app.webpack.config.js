@@ -3,13 +3,35 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
-var extractCSS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
-var extractSASS = new ExtractTextPlugin('assets/styles/[name].[hash].css');
+var isDebug = true;
+
+if (~process.argv.indexOf('--prod')) {
+  isDebug = false;
+}
+
+function devtool() {
+  return isDebug ? 'source-map' : '';
+}
+
+function hash() {
+  return isDebug ? '' : '.[hash]';
+}
+
+function prodPlugin(plugin) {
+  if (!isDebug) {
+    return plugin;
+  }
+
+  return function () {};
+}
+
+var extractCSS = new ExtractTextPlugin('assets/styles/[name]' + hash() + '.css');
+var extractSASS = new ExtractTextPlugin('assets/styles/[name]' + hash() + '.css');
 
 module.exports = {
   context: path.join(__dirname, '../app'),
 
-  devtool: 'source-map',
+  devtool: devtool(),
 
   entry: {
     'app': './app.ts',
@@ -17,7 +39,7 @@ module.exports = {
   },
 
   output: {
-    filename: '[name].js',
+    filename: '[name]' + hash() + '.js',
     path: path.join(__dirname, '../dist')
   },
 
@@ -58,23 +80,29 @@ module.exports = {
   },
 
   plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '../dist/index.html')
+    }),
     new webpack.DllReferencePlugin({
       context: '.',
       manifest: require('./dll-manifest.json')
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, '../dist/index.html')
-    }),
-    new webpack.WatchIgnorePlugin([
-      path.resolve(__dirname, '../dist/index.html')
-    ]),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
     }),
+    new webpack.WatchIgnorePlugin([
+      path.resolve(__dirname, '../dist/index.html')
+    ]),
     extractCSS,
-    extractSASS
+    extractSASS,
+    prodPlugin(new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+      compress: {
+        warnings: false
+      }
+    }))
   ],
 
   resolve: {
