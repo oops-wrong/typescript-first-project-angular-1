@@ -1,8 +1,8 @@
 /// <reference path="./jquery-zoom/jquery-zoom.d.ts"/>
 
-declare interface IDeclare {
+declare interface IRequire {
   (string): string;
-  context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => IDeclare;
-  resolve: (path: string) => IDeclare;
+  context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => IRequire;
+  resolve: (path: string) => IRequire;
 }
-declare let require: IDeclare;
+declare let require: IRequire;
