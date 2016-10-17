@@ -1,12 +1,18 @@
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var LiveReloadPlugin = require('webpack-livereload-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
 var isDebug = true;
+var isWatch = false;
 
 if (~process.argv.indexOf('--prod')) {
   isDebug = false;
+}
+
+if (~process.argv.indexOf('--watch')) {
+  isWatch = true;
 }
 
 function devtool() {
@@ -25,11 +31,25 @@ function prodPlugin(plugin) {
   return function () {};
 }
 
+function watchPlugin(plugin) {
+  if (isWatch) {
+    return plugin;
+  }
+
+  return function () {};
+}
+
 var extractCSS = new ExtractTextPlugin('assets/styles/[name]' + hash() + '.css');
 var extractSASS = new ExtractTextPlugin('assets/styles/[name]' + hash() + '.css');
 
 module.exports = {
   context: path.join(__dirname, '../app'),
+
+  devServer: {
+    contentBase: 'dist/',
+    noInfo: true,
+    port: 9000
+  },
 
   devtool: devtool(),
 
@@ -83,6 +103,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../dist/index.html')
     }),
+    watchPlugin(new LiveReloadPlugin({appendScriptTag: true})),
     new webpack.DllReferencePlugin({
       context: '.',
       manifest: require('./dll-manifest.json')
