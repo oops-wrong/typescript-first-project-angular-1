@@ -1,28 +1,21 @@
-page.$inject = [];
+export default class Page {
+  static $inject = [];
 
-export function page() {
-  var title = '';
+  private title = '';
 
-  return {
-    getTitle: getTitle,
-    setTitle: setTitle
-  };
-
-  ////////////////
+  constructor () {}
 
   /**
    * Get title text.
-   * @returns {string}
    */
-  function getTitle() {
-    return title;
+  getTitle(): string {
+    return this.title;
   }
 
   /**
    * Set title.
-   * @param newVal
    */
-  function setTitle(newVal) {
-    title = newVal;
+  setTitle(newVal: string): void {
+    this.title = newVal;
   }
 }

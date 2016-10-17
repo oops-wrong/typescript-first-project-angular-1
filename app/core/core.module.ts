@@ -1,18 +1,18 @@
 import {module} from 'angular';
 
-import {order} from './order/order.service';
-import {orderProduct} from './order/order-product.service';
-import {PageController} from './page/page.controller';
-import {page} from './page/page.service';
-import {productFactory} from './product/product.service';
-import {utils} from './utils/utils.service';
+import Order from './order/order.service';
+import OrderProduct from './order/order-product.service';
+import PageController from './page/page.controller';
+import Page from './page/page.service';
+import Product from './product/product.service';
+import Utils from './utils/utils.service';
 
 module('core', [
   'ngResource'
 ])
-  .factory('order', order)
-  .factory('orderProduct', orderProduct)
+  .service('order', Order)
+  .service('orderProduct', OrderProduct)
   .controller('PageController', PageController)
-  .factory('page', page)
-  .factory('product', productFactory)
-  .factory('utils', utils);
+  .service('page', Page)
+  .service('product', Product)
+  .service('utils', Utils);

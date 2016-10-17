@@ -1,40 +1,33 @@
-productFactory.$inject = ['$resource'];
+export default class Product {
+  static $inject = ['$resource'];
 
-export function productFactory($resource) {
-  var products = [];
+  private products: any[] = [];
 
-  return {
-    getQuery: getQuery,
-    getProducts: getProducts,
-    getProduct: getProduct
-  };
-
-  ////////////////
+  constructor (private $resource) {}
 
   /**
    * Cache products list.
    * @param {Array} newProducts
    */
-  function addProducts(newProducts) {
-    products = newProducts;
+  addProducts(newProducts: any[]) {
+    this.products = newProducts;
   }
 
   /**
    * Get result of $resource.query() and remember result to product list if no productId getting.
-   * @param {string} productId
    * @returns {*|{isArray, method, params}|{method, isArray}}
    */
-  function getQuery(productId) {
+  getQuery(productId: string) {
     var resource;
     var query;
 
     if (productId) {
-      resource = getResourceOfDetails();
+      resource = this.getResourceOfDetails();
       query = resource.get({productId: productId});
     } else {
-      resource = getResource();
+      resource = this.getResource();
       query = resource.query();
-      query.$promise.then(addProducts);
+      query.$promise.then(this.addProducts.bind(this));
     }
 
     return query;
@@ -44,8 +37,8 @@ export function productFactory($resource) {
    * Get list of cached products;
    * @returns {Array}
    */
-  function getProducts() {
-    return products;
+  getProducts() {
+    return this.products;
   }
 
   /**
@@ -53,10 +46,10 @@ export function productFactory($resource) {
    * @param id
    * @returns {Object}
    */
-  function getProduct(id) {
+  getProduct(id) {
     var product = null;
 
-    products.some(function (elem) {
+    this.products.some(function (elem) {
       if (elem.id === id) {
         product = elem;
 
@@ -71,8 +64,8 @@ export function productFactory($resource) {
    * Get instance of $resource service with products list data.
    * @returns {Object}
    */
-  function getResource() {
-    return $resource('assets/phones/phones.json', {}, {
+  getResource() {
+    return this.$resource('assets/phones/phones.json', {}, {
       query: {
         isArray: true,
         method: 'GET'
@@ -84,8 +77,8 @@ export function productFactory($resource) {
    * Get instance of $resource service with a product data.
    * @returns {Object}
    */
-  function getResourceOfDetails() {
-    return $resource('assets/phones/:productId.json', {}, {
+  getResourceOfDetails() {
+    return this.$resource('assets/phones/:productId.json', {}, {
       query: {
         isArray: true,
         method: 'GET'

@@ -1,7 +1,13 @@
-PageController.$inject = ['page'];
+import Page from './page.service';
 
-export function PageController(page) {
-  var vm = this;
+type stringRetrieve = () => string;
 
-  vm.getTitle = page.getTitle;
+export default class PageController {
+  static $inject = ['page'];
+
+  constructor (private page: Page) {}
+
+  get getTitle(): stringRetrieve {
+    return this.page.getTitle;
+  }
 }

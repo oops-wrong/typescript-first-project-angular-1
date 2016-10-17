@@ -1,29 +1,26 @@
 import * as angular from 'angular';
 
-orderProduct.$inject = ['order', 'product', 'utils'];
+import Order from './order.service';
+import Product from '../product/product.service';
+import Utils from '../utils/utils.service';
 
-export function orderProduct(order, product, utils) {
-  return {
-    getAmount: getAmount,
-    getDeclCountText: getDeclCountText,
-    getListLength: getListLength
-  };
+export default class OrderProduct {
+  static $inject = ['order', 'product', 'utils'];
 
-  ////////////////
+  constructor (private order: Order, private product: Product, private utils: Utils) {}
 
   /**
-   * Get amount of
-   * @returns {number}
+   * Get amount of basket.
    */
-  function getAmount() {
+  getAmount(): number {
     var amount = 0;
-    var list = order.getList();
+    var list = this.order.getList();
     var productItem;
 
-    list.forEach(function (elem) {
-      productItem = product.getProduct(elem.id);
+    list.forEach((elem) => {
+      productItem = this.product.getProduct(elem.id);
 
-      if (angular.isObject(product) && angular.isNumber(productItem.cost)) {
+      if (angular.isObject(this.product) && angular.isNumber(productItem.cost)) {
         amount += productItem.cost * elem.count;
       }
     });
@@ -33,18 +30,15 @@ export function orderProduct(order, product, utils) {
 
   /**
    * Get count word with declination.
-   * @param {number} count
-   * @returns {string}
    */
-  function getDeclCountText(count) {
-    return utils.declOfNum(count, ['позиция', 'позиции', 'позиций']);
+  getDeclCountText(count: number): string {
+    return this.utils.declOfNum(count, ['позиция', 'позиции', 'позиций']);
   }
 
   /**
    * Get length of order list.
-   * @returns {number}
    */
-  function getListLength() {
-    return order.getList().length;
+  getListLength(): number {
+    return this.order.getList().length;
   }
 }

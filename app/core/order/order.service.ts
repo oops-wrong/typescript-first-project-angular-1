@@ -1,34 +1,25 @@
 import * as angular from 'angular';
 
-order.$inject = ['$rootScope'];
+export default class Order {
+  static $inject = ['$rootScope'];
 
-export function order($rootScope) {
-  var list = [];
+  private list = [];
 
-  return {
-    addToList: addToList,
-    createOrderItem: createOrderItem,
-    getItemById: getItemById,
-    getList: getList,
-    removeFromList: removeFromList,
-    updateOrderItem: updateOrderItem
-  };
-
-  ////////////////
+  constructor (private $rootScope) {}
 
   /**
    * Add to cart list an order item.
    * @param {Object} item
    * @returns {boolean}
    */
-  function addToList(item) {
+  addToList(item) {
     if (angular.isObject(item) && item.id) {
-      list.push(item);
+      this.list.push(item);
 
-      $rootScope.$emit('order.add', {
+      this.$rootScope.$emit('order.add', {
         id: item.id
       });
-      $rootScope.$emit('order.change');
+      this.$rootScope.$emit('order.change');
 
       return true;
     }
@@ -41,7 +32,7 @@ export function order($rootScope) {
    * @param {Object} data
    * @returns {Object} - {id: <string>, count: <number>}
    */
-  function createOrderItem(data) {
+  createOrderItem(data) {
     var defaultOptions = {
       count: 1
     };
@@ -61,10 +52,10 @@ export function order($rootScope) {
    * @param {string} id
    * @returns {Object}
    */
-  function getItemById(id) {
+  getItemById(id) {
     var item = null;
 
-    list.some(function (elem) {
+    this.list.some(function (elem) {
       if (!angular.isObject(elem)) {
         return true;
       }
@@ -83,31 +74,31 @@ export function order($rootScope) {
    * Get list of order items.
    * @returns {Array}
    */
-  function getList() {
-    return list;
+  getList() {
+    return this.list;
   }
 
   /**
    * Remove a product from order list.
    * @param {string} id - Product id
    */
-  function removeFromList(id) {
+  removeFromList(id) {
     var result = false;
-    var item = getItemById(id);
+    var item = this.getItemById(id);
     var index;
 
     // Remove item from list
     if (angular.isObject(item)) {
-      index = list.indexOf(item);
+      index = this.list.indexOf(item);
 
       if (~index) {
-        list.splice(index, 1);
+        this.list.splice(index, 1);
         result = true;
 
-        $rootScope.$emit('order.remove', {
+        this.$rootScope.$emit('order.remove', {
           id: id
         });
-        $rootScope.$emit('order.change');
+        this.$rootScope.$emit('order.change');
       }
     }
 
@@ -119,20 +110,20 @@ export function order($rootScope) {
    * @param {Object} data
    * @returns {boolean}
    */
-  function updateOrderItem(data) {
+  updateOrderItem(data) {
     var result = false;
     var id;
     var item;
 
     if (angular.isObject(data) || !data.id) {
       id = data.id;
-      item = getItemById(id);
+      item = this.getItemById(id);
 
       if (angular.isObject(item)) {
         angular.merge(item, data);
 
-        $rootScope.$emit('order.update', data);
-        $rootScope.$emit('order.change');
+        this.$rootScope.$emit('order.update', data);
+        this.$rootScope.$emit('order.change');
       }
     }
 
