@@ -1,16 +1,22 @@
+import {IProductDetails, Product} from './core/product/product.service';
+
 /////////////////////////////////////////////////////////////
 // CONFIG
 /////////////////////////////////////////////////////////////
 
 config.$inject = ['$locationProvider', '$stateProvider', '$urlRouterProvider'];
 
-export function config($locationProvider, $stateProvider, $urlRouterProvider) {
+export function config(
+  $locationProvider: angular.ILocationProvider,
+  $stateProvider: angular.ui.IStateProvider,
+  $urlRouterProvider: angular.ui.IUrlRouterProvider
+) {
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
   $urlRouterProvider.otherwise('/');
 
-  var states = [
+  let states = [
     {
       name: 'catalog',
       resolve: {
@@ -41,7 +47,7 @@ export function config($locationProvider, $stateProvider, $urlRouterProvider) {
     }
   ];
 
-  states.forEach(function (state) {
+  states.forEach(state => {
     $stateProvider.state(state);
   });
 }
@@ -50,21 +56,24 @@ openModal.$inject = ['$rootScope', '$state', 'ngDialog', 'productDetails'];
 
 /**
  * Open modal.
- * @param {Object} $rootScope
- * @param {Object} $state
- * @param {Object} ngDialog
- * @param {Object} productDetails
  */
-function openModal($rootScope, $state, ngDialog, productDetails) {
-  var newScope = $rootScope.$new(true);
+function openModal(
+  $rootScope: angular.IRootScopeService,
+  $state: angular.ui.IStateService,
+  ngDialog: angular.dialog.IDialogService,
+  productDetails: IProductDetails
+) {
+  let newScope: angular.IScope = $rootScope.$new(true);
 
-  newScope.productDetails = productDetails;
+  newScope['productDetails'] = productDetails;
 
-  ngDialog.open({
+  let closePromise: angular.IPromise<angular.dialog.IDialogClosePromise> = ngDialog.open({
     plain: true,
-    scope: newScope,
+    scope: newScope as angular.dialog.IDialogScope,
     template: '<product product-details="productDetails"></product>'
-  }).closePromise.finally(function() {
+  }).closePromise;
+
+  closePromise.finally(function() {
     $state.go('^');
   });
 }
@@ -73,17 +82,15 @@ productsPrep.$inject = ['product'];
 
 /**
  * Get resource promise with products list.
- * @param {Object} product
- * @returns {*|Function}
  */
-function productsPrep(product) {
+function productsPrep(product: Product) {
   return product.getQuery().$promise;
 }
 
 productDetailsPrep.$inject = ['$stateParams', 'product'];
 
-function productDetailsPrep($stateParams, product) {
-  return product.getQuery($stateParams.productId).$promise;
+function productDetailsPrep($stateParams: angular.ui.IStateParamsService, product: Product) {
+  return product.getQuery($stateParams['productId']).$promise;
 }
 
 /////////////////////////////////////////////////////////////
@@ -92,19 +99,27 @@ function productDetailsPrep($stateParams, product) {
 
 run.$inject = ['$rootScope', '$state', 'ngDialog'];
 
-export function run($rootScope, $state, ngDialog) {
+export function run(
+  $rootScope: angular.IRootScopeService,
+  $state: angular.ui.IStateService,
+  ngDialog: angular.dialog.IDialogService
+) {
   $rootScope.$on('$stateChangeError', console.error.bind(console));
 
-  $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+  $rootScope.$on('$stateChangeStart', (
+    evt: angular.IAngularEvent,
+    to: angular.ui.IState,
+    params: angular.ui.IStateOptions
+  ) => {
 
     // Define "redirectTo" field for state objects
-    if (to.redirectTo) {
+    if (to['redirectTo']) {
       evt.preventDefault();
-      $state.go(to.redirectTo, params, {location: 'replace'})
+      $state.go(to['redirectTo'], params, {location: 'replace'})
     }
 
     // Close all dialogs if no-dialog state
-    if (!to.isDialog) {
+    if (!to['isDialog']) {
       ngDialog.closeAll();
     }
   });

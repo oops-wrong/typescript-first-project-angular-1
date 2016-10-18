@@ -113,7 +113,7 @@ export default class Order {
     let id: ProductId;
     let item: IOrderItem;
 
-    if (ng.isObject(data) || !data.id) {
+    if (ng.isObject(data) && data.id) {
       id = data.id;
       item = this.getItemById(id);
 

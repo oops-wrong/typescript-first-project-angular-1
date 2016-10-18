@@ -72,9 +72,9 @@ export default class Product {
   /**
    * Get result of $resource.query() and remember result to product list if no productId getting.
    */
-  getQuery(productId: ProductId): angular.resource.IResourceMethod<IProductDetails>;
-  getQuery(productId: void): angular.resource.IResourceMethod<IProduct[]>;
-  getQuery(productId: any): angular.resource.IResourceMethod<any> {
+  getQuery(productId: ProductId): angular.resource.IResource<IProductDetails>;
+  getQuery(productId?: any): angular.resource.IResource<IProduct[]>;
+  getQuery(productId?: any): angular.resource.IResource<any> {
     let resource;
     let query;
 
@@ -91,19 +91,12 @@ export default class Product {
   }
 
   /**
-   * Get list of cached products;
-   */
-  getProducts(): IProduct[] {
-    return this.products;
-  }
-
-  /**
    * Get cached product.
    */
   getProduct(id: ProductId): IProduct {
-    let product = null;
+    let product: IProduct = null;
 
-    this.products.some((elem) => {
+    this.products.some(elem => {
       if (elem.id === id) {
         product = elem;
 
@@ -138,3 +131,5 @@ export default class Product {
     });
   }
 }
+
+export {Product};
