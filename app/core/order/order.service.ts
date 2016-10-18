@@ -1,19 +1,24 @@
-import * as angular from 'angular';
+import * as ng from 'angular';
+
+import {ProductId} from '../product/product.service';
+
+export interface IOrderItem {
+  count: number;
+  id: ProductId;
+}
 
 export default class Order {
   static $inject = ['$rootScope'];
 
-  private list = [];
+  private list: IOrderItem[] = [];
 
-  constructor (private $rootScope) {}
+  constructor (private $rootScope: angular.IRootScopeService) {}
 
   /**
    * Add to cart list an order item.
-   * @param {Object} item
-   * @returns {boolean}
    */
-  addToList(item) {
-    if (angular.isObject(item) && item.id) {
+  addToList(item: IOrderItem): boolean {
+    if (ng.isObject(item) && item.id) {
       this.list.push(item);
 
       this.$rootScope.$emit('order.add', {
@@ -29,34 +34,32 @@ export default class Order {
 
   /**
    * Create new order item.
-   * @param {Object} data
-   * @returns {Object} - {id: <string>, count: <number>}
    */
-  createOrderItem(data) {
-    var defaultOptions = {
+  static createOrderItem(data: {id: ProductId}): IOrderItem;
+  static createOrderItem(data: any): null;
+  static createOrderItem(data: any): IOrderItem | null {
+    let defaultOptions = {
       count: 1
     };
-    var newItem = {};
+    let newItem: IOrderItem = {} as IOrderItem;
 
-    if (!angular.isObject(data) || !data.id) {
+    if (!ng.isObject(data) || !data.id) {
       return null;
     }
 
-    angular.extend(newItem, defaultOptions, data);
+    ng.extend(newItem, defaultOptions, data);
 
     return newItem;
   }
 
   /**
    * Get order item by product id.
-   * @param {string} id
-   * @returns {Object}
    */
-  getItemById(id) {
-    var item = null;
+  getItemById(id: ProductId): IOrderItem {
+    let item: IOrderItem = null;
 
     this.list.some(function (elem) {
-      if (!angular.isObject(elem)) {
+      if (!ng.isObject(elem)) {
         return true;
       }
 
@@ -72,23 +75,20 @@ export default class Order {
 
   /**
    * Get list of order items.
-   * @returns {Array}
    */
-  getList() {
+  getList(): IOrderItem[] {
     return this.list;
   }
 
   /**
    * Remove a product from order list.
-   * @param {string} id - Product id
    */
-  removeFromList(id) {
-    var result = false;
-    var item = this.getItemById(id);
-    var index;
+  removeFromList(id: ProductId): boolean {
+    let result = false;
+    let item: IOrderItem = this.getItemById(id);
+    let index: number;
 
-    // Remove item from list
-    if (angular.isObject(item)) {
+    if (ng.isObject(item)) {
       index = this.list.indexOf(item);
 
       if (~index) {
@@ -107,20 +107,19 @@ export default class Order {
 
   /**
    * Update data in order item.
-   * @param {Object} data
-   * @returns {boolean}
    */
-  updateOrderItem(data) {
-    var result = false;
-    var id;
-    var item;
+  updateOrderItem(data: {id: ProductId}): boolean {
+    let result = false;
+    let id: ProductId;
+    let item: IOrderItem;
 
-    if (angular.isObject(data) || !data.id) {
+    if (ng.isObject(data) || !data.id) {
       id = data.id;
       item = this.getItemById(id);
 
-      if (angular.isObject(item)) {
-        angular.merge(item, data);
+      if (ng.isObject(item)) {
+        ng.merge(item, data);
+        result = true;
 
         this.$rootScope.$emit('order.update', data);
         this.$rootScope.$emit('order.change');

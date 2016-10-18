@@ -1,4 +1,4 @@
-import * as angular from 'angular';
+import * as ng from 'angular';
 
 import Order from './order.service';
 import Product from '../product/product.service';
@@ -13,14 +13,14 @@ export default class OrderProduct {
    * Get amount of basket.
    */
   getAmount(): number {
-    var amount = 0;
-    var list = this.order.getList();
-    var productItem;
+    let amount = 0;
+    let list = this.order.getList();
+    let productItem;
 
     list.forEach((elem) => {
       productItem = this.product.getProduct(elem.id);
 
-      if (angular.isObject(this.product) && angular.isNumber(productItem.cost)) {
+      if (ng.isObject(this.product) && ng.isNumber(productItem.cost)) {
         amount += productItem.cost * elem.count;
       }
     });
