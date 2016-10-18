@@ -1,22 +1,19 @@
-zoomImg.$inject = [];
+export let zoomImg: Function & angular.IDirectiveFactory;
 
-export function zoomImg() {
+export default zoomImg = function(): angular.IDirective {
   return {
     link: link,
     restrict: 'A',
     scope: {}
   };
 
-  function link(scope, element) {
-    var $element = $(element);
-    var $images;
-
-    $(function () {
+  function link(scope: angular.IScope, element: JQuery) {
+    $(() => {
       if (typeof $.zoom === 'function') {
-        $images = $element.find('img');
+        let $images = element.find('img');
 
-        $images.each(function () {
-          var $image = $(this);
+        $images.each((i: number) => {
+          let $image = $images.eq(i);
 
           $image.parent().zoom({
             on: 'grab'
@@ -27,4 +24,6 @@ export function zoomImg() {
       }
     });
   }
-}
+};
+
+zoomImg.$inject = [];
