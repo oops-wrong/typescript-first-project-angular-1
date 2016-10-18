@@ -1,25 +1,82 @@
+export type ProductId = string;
+
+export interface IProduct extends angular.resource.IResource<IProduct> {
+  age: number;
+  cost: number;
+  id: ProductId;
+  imageUrl: string;
+  name: string;
+  snippet: string;
+}
+
+export interface IProductDetails extends angular.resource.IResource<IProductDetails> {
+  additionalFeatures: string;
+  android: {
+    os: string;
+    ui: string;
+  };
+  availability: string[];
+  battery: string;
+  camera: {
+    features: string[];
+    primary: string;
+  };
+  connectivity: {
+    bluetooth: string;
+    cell: string;
+    gps: boolean;
+    infrared: boolean;
+    wifi: string;
+  };
+  description: string;
+  display: {
+    screenResolution: string;
+    screenSize: string;
+    touchScreen: boolean;
+  };
+  hardware: {
+    accelerometer: boolean;
+    audioJack: string;
+    cpu: string;
+    fmRadio: boolean;
+    physicalKeyboard: boolean;
+    usb: string;
+  };
+  id: ProductId;
+  images: string[];
+  name: string;
+  sizeAndWeight: {
+    screenResolution: string[];
+    screenSize: string;
+  };
+  storage: {
+    flash: string;
+    ram: string;
+  };
+}
+
 export default class Product {
   static $inject = ['$resource'];
 
-  private products: any[] = [];
+  private products: IProduct[] = [];
 
-  constructor (private $resource) {}
+  constructor (private $resource: angular.resource.IResourceService) {}
 
   /**
    * Cache products list.
-   * @param {Array} newProducts
    */
-  addProducts(newProducts: any[]) {
+  addProducts(newProducts: IProduct[]): void {
     this.products = newProducts;
   }
 
   /**
    * Get result of $resource.query() and remember result to product list if no productId getting.
-   * @returns {*|{isArray, method, params}|{method, isArray}}
    */
-  getQuery(productId: string) {
-    var resource;
-    var query;
+  getQuery(productId: ProductId): angular.resource.IResourceMethod<IProductDetails>;
+  getQuery(productId: void): angular.resource.IResourceMethod<IProduct[]>;
+  getQuery(productId: any): angular.resource.IResourceMethod<any> {
+    let resource;
+    let query;
 
     if (productId) {
       resource = this.getResourceOfDetails();
@@ -35,21 +92,18 @@ export default class Product {
 
   /**
    * Get list of cached products;
-   * @returns {Array}
    */
-  getProducts() {
+  getProducts(): IProduct[] {
     return this.products;
   }
 
   /**
    * Get cached product.
-   * @param id
-   * @returns {Object}
    */
-  getProduct(id) {
-    var product = null;
+  getProduct(id: ProductId): IProduct {
+    let product = null;
 
-    this.products.some(function (elem) {
+    this.products.some((elem) => {
       if (elem.id === id) {
         product = elem;
 
@@ -62,9 +116,8 @@ export default class Product {
 
   /**
    * Get instance of $resource service with products list data.
-   * @returns {Object}
    */
-  getResource() {
+  getResource(): angular.resource.IResourceClass<angular.resource.IResource<IProduct[]>> {
     return this.$resource('assets/phones/phones.json', {}, {
       query: {
         isArray: true,
@@ -75,9 +128,8 @@ export default class Product {
 
   /**
    * Get instance of $resource service with a product data.
-   * @returns {Object}
    */
-  getResourceOfDetails() {
+  getResourceOfDetails(): angular.resource.IResourceClass<angular.resource.IResource<IProductDetails>> {
     return this.$resource('assets/phones/:productId.json', {}, {
       query: {
         isArray: true,
