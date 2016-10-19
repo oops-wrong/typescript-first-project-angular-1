@@ -127,9 +127,6 @@ module.exports = {
   ],
 
   resolve: {
-    alias: {
-      'jquery-zoom': path.resolve(__dirname, '../helpers/jquery-zoom/jquery-zoom.js')
-    },
     extensions: ['', '.ts', '.js', '.scss']
   }
 };
