@@ -1,4 +1,4 @@
-/// <reference path="../helpers/declarations.d.ts"/>
+/// <reference path="./helpers/types.d.ts"/>
 
 import 'angular';
 import 'angular-animate';
