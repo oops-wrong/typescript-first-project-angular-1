@@ -21,7 +21,7 @@ module.exports = {
   devtool: devtool(),
 
   entry: {
-    'dll': ['jquery', 'angular', 'ng-animate', 'ng-resource', 'ng-ui-router', 'ng-dialog']
+    'dll': ['jquery', 'angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog']
   },
 
   output: {
