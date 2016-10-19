@@ -1,54 +1,51 @@
-import * as angular from 'angular';
+import * as ng from 'angular';
 
-export let checkoutComponent = {
-  templateUrl: require('file?name=[path][name].[hash].[ext]!./checkout.template.html'),
-  controller: CheckoutController,
-  controllerAs: 'vm'
-};
+import {IOrderItem, Order} from '../core/order/order.service';
+import OrderProduct from '../core/order/order-product.service';
+import Page from '../core/page/page.service';
+import {IProduct, Product, ProductId} from '../core/product/product.service';
 
-CheckoutController.$inject = ['$rootScope', 'order', 'orderProduct', 'page', 'product'];
+interface ICheckoutItem extends IProduct {
+  orderInfo: IOrderItem;
+}
 
-function CheckoutController($rootScope, order, orderProduct, page, product) {
-  var vm = this;
+class CheckoutController {
+  static readonly MAX_COUNT = 99;
+  static readonly MIN_COUNT = 1;
 
-  vm.addCount = addCount;
-  vm.amount = 0;
-  vm.changeInput = changeInput;
-  vm.items = [];
-  vm.removeItem = removeItem;
+  static $inject = ['$rootScope', 'order', 'orderProduct', 'page', 'product'];
 
-  activate();
+  amount = 0;
+  items: ICheckoutItem[] = [];
 
-  ////////////////
-
-  function activate() {
+  constructor (
+    private $rootScope: angular.IRootScopeService,
+    private order: Order,
+    private orderProduct: OrderProduct,
+    private page: Page,
+    private product: Product
+  ) {
     page.setTitle('Checkout');
-    generateItemsList();
-    orderChanged();
+    this.generateItemsList();
+    this.orderChanged();
 
-    $rootScope.$on('order.add', orderListChanged);
-    $rootScope.$on('order.remove', orderListChanged);
-    $rootScope.$on('order.change', orderChanged);
+    $rootScope.$on('order.add', this.orderListChanged.bind(this));
+    $rootScope.$on('order.remove', this.orderListChanged.bind(this));
+    $rootScope.$on('order.change', this.orderChanged.bind(this));
   }
 
   /**
    * Add value to count input.
-   * @param {Object} $event
-   * @param {number} value
    */
-  function addCount($event, value) {
-    var $btn = $($event.target);
-    var $container = $btn.closest('.count-group');
-    var $input = $container.find('.input-number');
-    var inputVal = $input.val() * 1;
-    var count;
+  addCount($event: JQueryMouseEventObject, value: number): void {
+    let $btn = $($event.target);
+    let $container = $btn.closest('.count-group');
+    let $input = $container.find('.input-number');
+    let inputVal: number = parseInt($input.val());
+    let count: number;
 
-    if (!inputVal) {
-      inputVal = 0;
-    }
-
-    count = inputVal + value;
-    count = normalizeCountValue(count);
+    inputVal += value;
+    count = CheckoutController.normalizeCountValue(inputVal);
 
     $input.val(count);
     $input.trigger('change');
@@ -56,84 +53,83 @@ function CheckoutController($rootScope, order, orderProduct, page, product) {
 
   /**
    * Change input handler.
-   * @param orderInfo
    */
-  function changeInput(orderInfo) {
-    var count = normalizeCountValue(orderInfo.count);
-    var id = orderInfo.id;
-
+  changeInput(orderInfo: IOrderItem): void {
+    let count = CheckoutController.normalizeCountValue(orderInfo.count);
     orderInfo.count = count;
 
-    order.updateOrderItem({
-      id: id,
-      count: count
-    });
+    let id = orderInfo.id;
+    let orderItem: IOrderItem = {
+      count: count,
+      id: id
+    };
+
+    this.order.updateOrderItem(orderItem);
   }
 
   /**
    * Generate list of checkout items combining product and order items.
    */
-  function generateItemsList() {
-    var orderList = order.getList();
-    var productItem;
-    vm.items = [];
+  generateItemsList(): void {
+    let orderList = this.order.getList();
+    let productItem: IProduct;
+    this.items = [];
 
-    orderList.forEach(function (elem) {
-      var checkoutItem;
-      productItem = product.getProduct(elem.id);
+    orderList.forEach((orderItem: IOrderItem) => {
+      let checkoutItem: ICheckoutItem;
+      productItem = this.product.getProduct(orderItem.id);
 
-      if (angular.isObject(productItem)) {
-        checkoutItem = angular.copy(productItem);
-        checkoutItem['orderInfo'] = elem;
-        vm.items.push(checkoutItem);
+      if (ng.isObject(productItem)) {
+        checkoutItem = ng.copy(productItem) as ICheckoutItem;
+        checkoutItem.orderInfo = orderItem;
+        this.items.push(checkoutItem);
       }
     });
   }
 
   /**
-   * Get normal value of count input
-   * @param {number} value
-   * @returns {number}
+   * Get normal normalized of count input
    */
-  function normalizeCountValue(value) {
-    value *= 1;
-
-    if (!value) {
-      value = 0;
-    }
+  static normalizeCountValue(value: number | string): number {
+    let normalized: number = parseInt(value as string) || this.MIN_COUNT;
 
     switch (true) {
-      case value < 1:
-        value = 1;
-        break;
+      case normalized < this.MIN_COUNT:
+        return this.MIN_COUNT;
 
-      case value > 99:
-        value = 99;
-        break;
+      case normalized > this.MAX_COUNT:
+        return this.MAX_COUNT;
     }
 
-    return value;
+    return normalized;
   }
 
   /**
    * Order changed event handler.
    */
-  function orderChanged() {
-    vm.amount = orderProduct.getAmount();
+  orderChanged(): void {
+    this.amount = this.orderProduct.getAmount();
   }
 
   /**
    * Order list changed (add or remove) event handler.
    */
-  function orderListChanged() {
-    generateItemsList();
+  orderListChanged(): void {
+    this.generateItemsList();
   }
 
   /**
    * Remove item from order.
-   * @param {string} id
    */
-  function removeItem(id) {
-    order.removeFromList(id);
+  removeItem(id: ProductId): void {
+    this.order.removeFromList(id);
   }
 }
+
+let checkout: ng.IComponentOptions;
+
+export default checkout = {
+  templateUrl: require('file?name=[path][name].[hash].[ext]!./checkout.template.html'),
+  controller: CheckoutController,
+  controllerAs: 'vm'
+};

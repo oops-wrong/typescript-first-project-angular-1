@@ -3,7 +3,7 @@ import * as ng from 'angular';
 import {ProductId} from '../product/product.service';
 
 export interface IOrderItem {
-  count: number;
+  count?: number;
   id: ProductId;
 }
 
@@ -33,11 +33,9 @@ export default class Order {
   }
 
   /**
-   * Create new order item.
+   * Create new order item is not placed on the list.
    */
-  static createOrderItem(data: {id: ProductId}): IOrderItem;
-  static createOrderItem(data: any): null;
-  static createOrderItem(data: any): IOrderItem | null {
+  static createOrderItem(data: {id: ProductId}): IOrderItem {
     let defaultOptions = {
       count: 1
     };
@@ -108,7 +106,7 @@ export default class Order {
   /**
    * Update data in order item.
    */
-  updateOrderItem(data: {id: ProductId}): boolean {
+  updateOrderItem(data: IOrderItem): boolean {
     let result = false;
     let id: ProductId;
     let item: IOrderItem;
@@ -129,3 +127,5 @@ export default class Order {
     return result;
   }
 }
+
+export {Order};

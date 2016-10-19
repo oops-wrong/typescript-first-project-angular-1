@@ -1,8 +1,8 @@
 import {module} from 'angular';
 
-import {checkoutComponent} from './checkout.component';
+import checkout from './checkout.component';
 
 module('checkout', [
   'core',
 ])
-  .component('checkout', checkoutComponent);
+  .component('checkout', checkout);

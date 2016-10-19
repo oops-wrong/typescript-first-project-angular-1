@@ -1,9 +1,9 @@
 import {module} from "angular";
 
-import {catalogComponent} from "./catalog.component";
+import catalog from "./catalog.component";
 
 module('catalog', [
   'core',
   'zoomImg'
 ])
-  .component('catalog', catalogComponent);
+  .component('catalog', catalog);

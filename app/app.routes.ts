@@ -10,7 +10,7 @@ export function config(
   $locationProvider: angular.ILocationProvider,
   $stateProvider: angular.ui.IStateProvider,
   $urlRouterProvider: angular.ui.IUrlRouterProvider
-) {
+): void {
   $locationProvider.html5Mode(true);
   $locationProvider.hashPrefix('!');
 
@@ -103,7 +103,7 @@ export function run(
   $rootScope: angular.IRootScopeService,
   $state: angular.ui.IStateService,
   ngDialog: angular.dialog.IDialogService
-) {
+): void {
   $rootScope.$on('$stateChangeError', console.error.bind(console));
 
   $rootScope.$on('$stateChangeStart', (

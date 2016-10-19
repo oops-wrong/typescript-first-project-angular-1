@@ -8,6 +8,6 @@ export default class PageController {
   constructor (private page: Page) {}
 
   get getTitle(): stringRetrieve {
-    return this.page.getTitle;
+    return this.page.getTitle.bind(this.page);
   }
 }

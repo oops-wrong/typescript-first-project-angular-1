@@ -1,8 +1,8 @@
 import {module} from "angular";
 
-import {basketComponent} from './basket.component';
+import basket from './basket.component';
 
 module('basket', [
   'core'
 ])
-  .component('basket', basketComponent);
+  .component('basket', basket);
