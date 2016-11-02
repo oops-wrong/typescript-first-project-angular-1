@@ -10,9 +10,9 @@
     "dll": "npm run vendor && npm run gulp",
     "gulp": "gulp --gulpfile config/gulpfile.js copy",
     "gulp:watch": "gulp --gulpfile config/gulpfile.js watch",
-    "production": "webpack --config config/vendor.webpack.config.js --progress --prod && npm run gulp && webpack --config config/app.webpack.config.js --progress --prod",
+    "production": "webpack --config config/dll.webpack.config.js --progress --prod && npm run gulp && webpack --config config/app.webpack.config.js --progress --prod",
     "serv": "npm run vendor && npm run gulp && node node_modules/.bin/webpack-dev-server --config config/app.webpack.config.js --inline --hot --progress --client-log-level error",
-    "vendor": "webpack --config config/vendor.webpack.config.js --progress",
+    "vendor": "webpack --config config/dll.webpack.config.js --progress",
     "watch": "npm run vendor && npm run gulp && webpack --config config/app.webpack.config.js --watch --progress"
   },
   "devDependencies": {
