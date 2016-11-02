@@ -3,6 +3,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 
+var dll = require('../app/dll.js');
+
 var isDebug = true;
 
 if (~process.argv.indexOf('--prod')) {
@@ -21,7 +23,7 @@ module.exports = {
   devtool: devtool(),
 
   entry: {
-    'dll': ['jquery', 'angular', 'angular-animate', 'angular-resource', 'angular-ui-router', 'ng-dialog']
+    'dll': dll
   },
 
   output: {

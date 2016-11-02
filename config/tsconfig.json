@@ -12,7 +12,6 @@
     "target": "es2015"
   },
   "files": [
-    "app/app.module.ts",
-    "helpers/declarations"
+    "../app/app.module.ts"
   ]
 }
