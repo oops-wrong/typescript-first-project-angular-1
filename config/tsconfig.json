@@ -12,6 +12,7 @@
     "target": "es2015"
   },
   "files": [
-    "../app/app.module.ts"
+    "../app/app.module.ts",
+    "../app/helpers/types"
   ]
 }
